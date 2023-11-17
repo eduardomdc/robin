@@ -1,27 +1,5 @@
-#include "processo.c"
 #include <stdlib.h>
-
-typedef struct _ProcessoFila{
-    Processo* p;
-    struct _ProcessoFila* prev;
-    struct _ProcessoFila* prox;
-    int TempoFila;
-}ProcessoFila; 
-
-typedef struct _HeadNode{
-    ProcessoFila* prox;
-    ProcessoFila* prev;
-}HeadNode;
-
-typedef struct _Queue{
-    int max_size;
-    HeadNode* head;
-    int prioridade;
-    int tamanho;
-
-}Queue;
-
-
+#include "queues.h"
 
 int inserirProcesso(Queue* q, Processo* p){
     if(q->tamanho + 1 > q->max_size){
