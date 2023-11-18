@@ -1,4 +1,5 @@
 #include <printf.h>
+#include "queues.h"
 #include "robin.h"
 
 int PID_VAL = 100; //Valor Base do PID
@@ -23,4 +24,22 @@ void simulationUpdate(){
     checarProcessoFim(); //Processo acabou antes do quantum
     checarQuantumFim(); //Quantum terminou
     escalonar();
+}
+
+void checarProcessoFim(){
+    return;
+}
+
+void checarQuantumFim(){
+    return;
+}
+
+void escalonar(){
+    return;
+}
+
+Robin criarRobin(){
+    Robin robin;
+    robin.fim = 0;
+    return robin;
 }

@@ -6,8 +6,6 @@ typedef struct _IO {
     char type; // {impressora: i, disco: d, fita magnetica: f}
 }IO;
 
-
-
 typedef struct _Processo{
     int PID;
     int PPID; //Parent Process ID (-1 como inválido?)
@@ -17,5 +15,10 @@ typedef struct _Processo{
     IO IO_access;   
     
 }Processo;
+
+typedef struct ProcList{
+    Processo* procs; // lista de processos dinamicamente alocados após leitura
+    int size;
+}ProcList;
 
 #endif

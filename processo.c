@@ -17,15 +17,20 @@ void criarProcessos(char* filename, int MAX_PROCESSOS){
     fclose(f);
 }
 
-Processo* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS){
+ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS){
     FILE* f = fopen(filename, "r");
     if (f == NULL){
         printf("Erro abrindo arquivo.");
         exit(4);
     }
-
+    // criar lista de processos lidos
+    ProcList* proclist = (ProcList*)malloc(sizeof(ProcList));
+    proclist->size = 0;
+    // acomodar espaço para MAX_PROCESSOS
+    proclist->procs = (Processo*)malloc(sizeof(Processo)*MAX_PROCESSOS);
     //ToDo
 
     fclose(f);
+    return proclist;
 }
 

@@ -1,2 +1,3 @@
-gcc -o robin robin.c -Wall -pedantic &
+gcc robin.c queues.c processo.c -Wall -pedantic -o robin&
+echo "Compilação sem erros!"&
 ./robin
