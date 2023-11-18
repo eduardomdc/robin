@@ -38,7 +38,7 @@ Processo* removerProcesso(Queue* q, int PID){
 
 Queue* criarQueue(int max_size, int prioridade){
     //Cabeça
-    HeadNode* head = (HeadNode*) malloc(sizeof(HeadNode));
+    ProcessoFila* head = (ProcessoFila*) malloc(sizeof(ProcessoFila));
     head->prev = head->prox = head;
 
     //Info da queue
