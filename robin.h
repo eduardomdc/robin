@@ -8,7 +8,7 @@ typedef struct Robin {
     Queue queue;
 } Robin;
 
-Robin makeRobin(); // inicializa struct robin
+Robin criarRobin(); // inicializa struct robin
 void simulationUpdate();
 void checarProcessoFim(); //Processo acabou antes do quantum
 void checarQuantumFim(); //Quantum terminou

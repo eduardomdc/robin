@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "processo.h"
 
-void createProcessos(char* filename, int MAX_PROCESSOS){
+void criarProcessos(char* filename, int MAX_PROCESSOS){
 
     FILE* f = fopen(filename, "w");
     if (f == NULL){

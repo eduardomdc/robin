@@ -8,7 +8,7 @@ const int quantum = 5;
 const int MAX_PROCESSOS = 20;
 
 int main(){
-    Robin robin = makeRobin();
+    Robin robin = criarRobin();
     while(!robin.fim){
         simulationUpdate();
     }
