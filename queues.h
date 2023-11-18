@@ -7,7 +7,7 @@ typedef struct _ProcessoFila{
     Processo* p;
     struct _ProcessoFila* prev;
     struct _ProcessoFila* prox;
-    //int TempoFila; // isso é necessário? Processo já não possui o tempo em fila?
+    int TempoFila; // tempo nessa fila
 }ProcessoFila; 
 
 /* tipo diferente para a head vai dar erros de conversão de ponteiro
