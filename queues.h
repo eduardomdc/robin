@@ -3,21 +3,15 @@
 
 #include "processo.h"
 
-typedef struct _ProcessoFila{
+typedef struct ProcessoFila{
     Processo* p;
-    struct _ProcessoFila* prev;
-    struct _ProcessoFila* prox;
+    struct ProcessoFila* prev;
+    struct ProcessoFila* prox;
     int TempoFila; // tempo nessa fila
 }ProcessoFila; 
 
-/* tipo diferente para a head vai dar erros de conversão de ponteiro
-typedef struct _HeadNode{
-    ProcessoFila* prox;
-    ProcessoFila* prev;
-}HeadNode;
-*/
 
-typedef struct _Queue{
+typedef struct Queue{
     int max_size;
     ProcessoFila* head; // chegou sua vez!
     ProcessoFila* tail; // final da fila, vc é o último
@@ -25,4 +19,8 @@ typedef struct _Queue{
     int tamanho;
 }Queue;
 
+
+int inserirProcesso(Queue* q, Processo* p);
+Processo* popProcesso(Queue* q);
+Queue* criarQueue(int max_size, int prioridade);
 #endif

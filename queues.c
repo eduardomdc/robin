@@ -9,10 +9,18 @@ int inserirProcesso(Queue* q, Processo* p){
     ProcessoFila* pf = (ProcessoFila*) malloc(sizeof(ProcessoFila));
     
     pf->p = p;
+
+    if (q->head == NULL){
+        q->head = pf;
+        q->tail = pf;
+        pf->prox = pf;
+        pf->prev = pf;
+    }
+
     pf->prox = q->head; 
-    pf->prev = q->head->prev;
-    q->head->prev->prox = pf;
-    q->head->prev = pf;
+    pf->prev = q->tail;
+    q->tail->prox = pf;
+    q->tail = pf;
 
     q->tamanho += 1;
 
@@ -20,32 +28,37 @@ int inserirProcesso(Queue* q, Processo* p){
 }
 
 
-Processo* removerProcesso(Queue* q, int PID){
-    ProcessoFila* pf = q->head->prox;
-    while(pf != q->head){
-        if (pf->p->PID == PID){
-            
-            pf->prev->prox = pf->prox;
-            pf->prox->prev = pf->prev;
-            return pf->p;
-        }
+Processo* popProcesso(Queue* q){
 
-        pf = pf->prox;
+    if(q->head == NULL) return NULL;
+
+    ProcessoFila* old_head = q->head;
+    q->tail->prox = q->head->prox;
+    q->head->prox->prev = q->tail;
+    q->head = q->head->prox;
+
+    Processo* p = old_head->p;
+    free(old_head);
+
+    q->tamanho -= 1;
+
+    if(q->tamanho == 0){
+        q->head = q->tail = NULL;
     }
-    return NULL; //PID não encontrado 
+
+    return p;
+    
 }
 
 
 Queue* criarQueue(int max_size, int prioridade){
-    //Cabeça
-    ProcessoFila* head = (ProcessoFila*) malloc(sizeof(ProcessoFila));
-    head->prev = head->prox = head;
+    
 
-    //Info da queue
     Queue* q = (Queue*) malloc(sizeof(Queue));
     q->max_size = max_size; //checar valor válido
     q->prioridade = prioridade; //checar valor válido
-    q->head = head;
+    q->head = NULL;
+    q->tail = NULL;
     q->tamanho = 0;
 
     return q;

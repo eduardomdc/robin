@@ -1,18 +1,29 @@
 #ifndef PROCESSO
 #define PROCESSO
 
-typedef struct _IO {
+typedef enum tiposIO{
+    impressora,
+    disco,
+    fita_magnetica
+}tiposIO;
+
+typedef struct IO {
     int tempoInicio;
-    char type; // {impressora: i, disco: d, fita magnetica: f}
+    tiposIO tipo; // {impressora: i, disco: d, fita magnetica: f}
 }IO;
 
-typedef struct _Processo{
+typedef struct IOreqs {
+    IO* reqs;
+    int size;
+}IOreqs;
+
+typedef struct Processo{
     int PID;
-    int PPID; //Parent Process ID (-1 como inválido?)
+    int PPID; //Parent Process ID
     char status; //{pronto: p, bloqueado: q, executando: e} ???{saida: s, pronto_suspenso: ps, bloqueado_suspenso: bs}???
     int tempoExecucao; 
     int tempoInicio;
-    IO IO_access;   
+    IOreqs IO;   
     
 }Processo;
 
