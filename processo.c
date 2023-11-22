@@ -27,10 +27,16 @@ ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS){
     ProcList* proclist = (ProcList*)malloc(sizeof(ProcList));
     proclist->size = 0;
     // acomodar espaço para MAX_PROCESSOS
-    proclist->procs = (Processo*)malloc(sizeof(Processo)*MAX_PROCESSOS);
+    proclist->procs = (Processo**)malloc(sizeof(Processo*)*MAX_PROCESSOS);
     //ToDo
 
     fclose(f);
     return proclist;
+}
+
+
+int checarIORequests(Processo* p, int t){
+    //ToDo: Iterar pelos IO's do processo e retornar true se existir um que comece no tempo t
+    return 0;
 }
 
