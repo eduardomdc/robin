@@ -53,10 +53,10 @@ Processo* popProcesso(Queue* q){
 
 Queue* criarQueue(int max_size, int prioridade){
     
-
+    
     Queue* q = (Queue*) malloc(sizeof(Queue));
-    q->max_size = max_size; //checar valor válido
-    q->prioridade = prioridade; //checar valor válido
+    q->max_size = max_size; 
+    q->prioridade = prioridade; 
     q->head = NULL;
     q->tail = NULL;
     q->tamanho = 0;

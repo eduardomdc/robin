@@ -2,16 +2,23 @@
 #define ROBIN
 
 #include "queues.h"
+#include "processo.h"
+#include "robin.h"
 
 typedef struct Robin {
-    char fim;
-    Queue queue;
+    int quantum_atual;
+    int maxProcessos;
+    Queue* q1;
+    Queue* q2;
+    Queue* qIO;
+    Processo* em_execucao;
 } Robin;
 
-Robin criarRobin(); // inicializa struct robin
-void simulationUpdate();
-void checarProcessoFim(); //Processo acabou antes do quantum
-void checarQuantumFim(); //Quantum terminou
-void escalonar();
+Robin criarRobin(int quantum, int max_proc); // inicializa struct robin
+void updateSimulacao(Robin* r, ProcList* pl);
+void executarNovoProcesso(Robin* r);
+void verificarIO(Queue* qIO);
+void entradaProcessos(Robin* r, ProcList* pl, int t);
+void finalizarProcesso(ProcList* pl, int PID);
 
 #endif
