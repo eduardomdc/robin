@@ -3,7 +3,6 @@
 
 #include "queues.h"
 #include "processo.h"
-#include "robin.h"
 
 typedef struct Robin {
     int quantum_atual;

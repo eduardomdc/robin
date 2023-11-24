@@ -10,6 +10,12 @@ int t=0;
 const int QUANTUM = 5;
 const int MAX_PROCESSOS = 10;
 
+int criarPID(){
+    static int PID = 100;
+    PID++;
+    return PID;
+}
+
 //Debugging
 ProcList* criarProcessosHardcoded(){
     ProcList* pl = (ProcList*) malloc(sizeof(ProcList));
@@ -18,7 +24,7 @@ ProcList* criarProcessosHardcoded(){
 
     IOreqs placeholder = {NULL, 0};
     Processo* p1 = (Processo*) malloc(sizeof(Processo));
-    p1->PID = 101;
+    p1->PID = criarPID();
     p1->PPID = 0;
     p1->status = PRONTO;
     p1->tempoExecucao = 10;
@@ -26,7 +32,7 @@ ProcList* criarProcessosHardcoded(){
     p1->IO = placeholder;
 
     Processo* p2 = (Processo*) malloc(sizeof(Processo));
-    p2->PID = 102;
+    p2->PID = criarPID();
     p2->PPID = 0;
     p2->status = PRONTO;
     p2->tempoExecucao = 12;
