@@ -7,8 +7,8 @@
 typedef struct Robin {
     int quantum_atual;
     int maxProcessos;
-    Queue* q1;
-    Queue* q2;
+    Queue* qalto;
+    Queue* qbaixo;
     Queue* qIO;
     Processo* em_execucao;
 } Robin;

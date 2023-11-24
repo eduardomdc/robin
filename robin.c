@@ -69,7 +69,7 @@ void entradaProcessos(Robin* r, ProcList* pl, int t){
 
     for (int i=0; i< pl->size;i++){
         if((pl->procs[i])->tempoInicio == t){
-            inserirProcesso(r->q1, (pl->procs)[i]);
+            inserirProcesso(r->qalto, (pl->procs)[i]);
         }
     }
 }
@@ -110,7 +110,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
     else if((r->quantum_atual) % QUANTUM == 0){
         
         r->em_execucao->status = PRONTO;
-        inserirProcesso(r->q2, r->em_execucao); 
+        inserirProcesso(r->qbaixo, r->em_execucao); 
 
         executarNovoProcesso(r);
     }
@@ -126,9 +126,9 @@ void executarNovoProcesso(Robin* r){
     r->em_execucao = NULL;
     r->quantum_atual = 0;
 
-    Processo* proc = popProcesso(r->q1);
+    Processo* proc = popProcesso(r->qalto);
     if(proc == NULL){ //Fila com prioridade 1 vazia
-        proc = popProcesso(r->q2);
+        proc = popProcesso(r->qbaixo);
 
     }
 
@@ -151,8 +151,8 @@ Robin criarRobin(int quantum, int max_proc){
     robin.quantum_atual = 0;
     robin.maxProcessos = max_proc;
     robin.em_execucao = NULL;
-    robin.q1 = criarQueue(max_proc, 1);
-    robin.q2 = criarQueue(max_proc, 2);
+    robin.qalto = criarQueue(max_proc, 1);
+    robin.qalto = criarQueue(max_proc, 2);
     robin.qIO = criarQueue(max_proc, 0); //Isso ta esquisito
     
     return robin;
