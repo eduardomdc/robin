@@ -10,14 +10,15 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         exit(4);
     }
 
-    //Criando a lista de processos vazia
-    ProcList* plist = (ProcList*)malloc(sizeof(ProcList));
-    Processo** procs = (Processo**)malloc(MAX_PROCESSOS * sizeof(Processo*));
 
     int nProcessos;
     fscanf(f, "%d", &nProcessos);
     //Limite de leitura
     int n = (nProcessos >= MAX_PROCESSOS)? MAX_PROCESSOS:nProcessos;
+
+    //Criando a lista de processos vazia
+    ProcList* plist = (ProcList*)malloc(sizeof(ProcList));
+    Processo** procs = (Processo**)malloc(n * sizeof(Processo*));
 
     //Criando cada processo e alocando na lista
     for (int i = 0; i < n; i++){
