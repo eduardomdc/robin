@@ -65,16 +65,22 @@ int main(){
 }
 
 void entradaProcessos(Robin* r, ProcList* pl, int t){
-    if(pl==NULL) return; //lista vazia
+    printf("entradaProcessos\n");
+    if(pl==NULL){
+        printf("entradaProcessos:: lista vazia\n");
+        return;
+    } //lista vazia
 
     for (int i=0; i< pl->size;i++){
         if((pl->procs[i])->tempoInicio == t){
+            printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
             inserirProcesso(r->qalto, (pl->procs)[i]);
         }
     }
 }
 
 void verificarIO(Queue* qIO){
+    printf("VerificarIO\n");
     //ToDo: Iterar pela fila de io e colocar os finalizados na fila de pronto os que acabam no tempo t
     //Não esquecer de considerar filas diferentes para cada IO
     return;
@@ -82,21 +88,23 @@ void verificarIO(Queue* qIO){
 
 
 void updateSimulacao(Robin* r, ProcList* pl){
-
+    printf("Update!\n");
     t++;
 
     //Alterações no processo executado
     if(r->em_execucao != NULL){
+        printf("em_execucao != NULL\n");
         r->em_execucao->tempoExecucao -= 1;
         r->quantum_atual++;
     }
-    
     //Organizar Filas
+
     entradaProcessos(r, pl, t); 
     verificarIO(r->qIO);
 
     //Nenhum processo executando
     if(r->em_execucao == NULL){
+        printf("Nada em execução\n");
         executarNovoProcesso(r);
     }
     //Acabou o processo 
@@ -123,16 +131,19 @@ void updateSimulacao(Robin* r, ProcList* pl){
 }
 
 void executarNovoProcesso(Robin* r){
+    printf("executarNovoProcesso\n");
     r->em_execucao = NULL;
     r->quantum_atual = 0;
 
     Processo* proc = popProcesso(r->qalto);
     if(proc == NULL){ //Fila com prioridade 1 vazia
+        printf("Fila alta vazia\n");
         proc = popProcesso(r->qbaixo);
 
     }
 
     if(proc != NULL){
+        printf("Novo processo agora executando\n");
         proc->status = EXECUTANDO;
         r->em_execucao = proc;
     }
@@ -152,7 +163,7 @@ Robin criarRobin(int quantum, int max_proc){
     robin.maxProcessos = max_proc;
     robin.em_execucao = NULL;
     robin.qalto = criarQueue(max_proc, 1);
-    robin.qalto = criarQueue(max_proc, 2);
+    robin.qbaixo = criarQueue(max_proc, 2);
     robin.qIO = criarQueue(max_proc, 0); //Isso ta esquisito
     
     return robin;
