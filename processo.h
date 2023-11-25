@@ -29,7 +29,7 @@ typedef struct Processo{
     status status; 
     int tempoExecucao; 
     int tempoInicio;
-    IOreqs IO;   
+    IOreqs* IO;   
     
 }Processo;
 
@@ -38,7 +38,7 @@ typedef struct ProcList{
     int size;
 }ProcList;
 
-void criarProcessos(char* filename, int MAX_PROCESSOS);
+Processo* criarProcessos(char* filename, int MAX_PROCESSOS);
 ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS);
 int checarIORequests(Processo* p, int t);
 

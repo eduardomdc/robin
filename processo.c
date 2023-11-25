@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "processo.h"
 
-void criarProcessos(char* filename, int MAX_PROCESSOS){
+Processo* criarProcessos(char* filename, int MAX_PROCESSOS){
 
     FILE* f = fopen(filename, "w");
     if (f == NULL){
@@ -11,10 +11,21 @@ void criarProcessos(char* filename, int MAX_PROCESSOS){
     }
 
     for(int i=0; i< MAX_PROCESSOS; i++){
-       //ToDo
-    }
+       Processo* proc = (Processo*)malloc(sizeof(Processo));
+       status* s = (status*)malloc(sizeof(status));
+       IOreqs* ioreqs = (IOreqs*)malloc(sizeof(IOreqs));
+       IO* io = (IO*)malloc(sizeof(IO));
 
+       fscanf(f, "%d, %d, %s, %d, %d, %d, %s, %d", proc->PID, proc->PPID, proc->tempoExecucao, proc->tempoInicio,
+       io->tempoInicio, io->tipo, ioreqs->size);
+       
+       ioreqs->reqs = io;
+       proc->IO = ioreqs;
+       return proc;
+    }
+    
     fclose(f);
+    
 }
 
 ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS){
