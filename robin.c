@@ -59,6 +59,7 @@ int main(){
         } 
 
         updateSimulacao(&robin, pl);
+        t++;
     }
 
     return 0;
@@ -72,8 +73,7 @@ void entradaProcessos(Robin* r, ProcList* pl, int t){
     } //lista vazia
 
     for (int i=0; i< pl->size;i++){
-        if (pl->procs[i] == NULL) continue;
-        if((pl->procs[i])->tempoInicio == t){
+        if(pl->procs[i] != NULL && (pl->procs[i])->tempoInicio == t){
             printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
             inserirProcesso(r->qalto, (pl->procs)[i]);
         }
@@ -118,7 +118,7 @@ int verificarFim(Robin* r, ProcList* pl){
 
 void updateSimulacao(Robin* r, ProcList* pl){
     printf("Update!\n");
-    t++;
+    //t++;
 
     //Alterações no processo executado
     if(r->em_execucao != NULL){
@@ -182,8 +182,7 @@ void executarNovoProcesso(Robin* r){
 void finalizarProcesso(ProcList* pl, int PID){
     printf("finalizarProcesso\n");
     for (int i=0; i < pl->size; i++){
-        if (pl->procs[i] == NULL) continue;
-        if (pl->procs[i]->PID == PID){
+        if (pl->procs[i] != NULL && pl->procs[i]->PID == PID){
             pl->procs[i] = NULL;
         }
     }
