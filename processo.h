@@ -13,13 +13,13 @@ typedef enum status{
     EXECUTANDO
 }status;
 
-typedef struct IO {
+typedef struct IO{
     int tempoInicio;
     tiposIO tipo;
 }IO;
 
-typedef struct IOreqs {
-    IO* reqs;
+typedef struct IOreqs{
+    IO** reqs;
     int size;
 }IOreqs;
 

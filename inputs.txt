@@ -1,3 +1,4 @@
-101 0 PRONTO 10 5 NULL NULL 0
-102 0 PRONTO 12 2 NULL NULL 0
-PID PPID status tempoExecucao tempoInicioProcesso (tempoInicioIO tipoIO size)
+2
+101 0 PRONTO 10 5 0 NULL NULL
+102 0 PRONTO 12 2 0 NULL NULL
+PID PPID status tempoExecucao tempoInicioProcesso size tempoInicioIO tipoIO tempo InicioIO tempoInicioIO
