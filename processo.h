@@ -38,7 +38,7 @@ typedef struct ProcList{
     int size;
 }ProcList;
 
-Processo* criarProcessos(char* filename, int MAX_PROCESSOS);
+ProcList* criarProcessos(char* filename, int MAX_PROCESSOS);
 ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS);
 int checarIORequests(Processo* p, int t);
 
