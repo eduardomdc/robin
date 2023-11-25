@@ -32,18 +32,15 @@ int inserirProcesso(Queue* q, Processo* p){
 Processo* popProcesso(Queue* q){
     printf("popProcesso\n");
     ProcessoFila* bighead = q->head;
-    printf("c\n");
     if(bighead == NULL){
         printf("popProcessos:: head = NULL\n");
         return NULL;
     }
 
-    printf("b\n");
     ProcessoFila* old_head = q->head;
-    //q->tail->prox = q->head->prox;
-    //q->head->prox->prev = q->tail;
-    //q->head = q->head->prox;
-    printf("a\n");
+    q->tail->prox = q->head->prox;
+    q->head->prox->prev = q->tail;
+    q->head = q->head->prox;
     Processo* p = old_head->p;
     free(old_head);
     printf("popProcesso:: fred old_head\n");
