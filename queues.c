@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "queues.h"
 
 int inserirProcesso(Queue* q, Processo* p){
@@ -29,16 +30,20 @@ int inserirProcesso(Queue* q, Processo* p){
 
 
 Processo* popProcesso(Queue* q){
-
-    if(q->head == NULL) return NULL;
+    printf("popProcesso\n");
+    ProcessoFila* bighead = q->head;
+    if(bighead == NULL){
+        printf("popProcessos:: head = NULL\n");
+        return NULL;
+    }
 
     ProcessoFila* old_head = q->head;
     q->tail->prox = q->head->prox;
     q->head->prox->prev = q->tail;
     q->head = q->head->prox;
-
     Processo* p = old_head->p;
     free(old_head);
+    printf("popProcesso:: fred old_head\n");
 
     q->tamanho -= 1;
 

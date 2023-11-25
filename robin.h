@@ -3,13 +3,12 @@
 
 #include "queues.h"
 #include "processo.h"
-#include "robin.h"
 
 typedef struct Robin {
     int quantum_atual;
     int maxProcessos;
-    Queue* q1;
-    Queue* q2;
+    Queue* qalto;
+    Queue* qbaixo;
     Queue* qIO;
     Processo* em_execucao;
 } Robin;
@@ -20,5 +19,5 @@ void executarNovoProcesso(Robin* r);
 void verificarIO(Queue* qIO);
 void entradaProcessos(Robin* r, ProcList* pl, int t);
 void finalizarProcesso(ProcList* pl, int PID);
-
+int verificarFim(Robin* r, ProcList* pl);
 #endif
