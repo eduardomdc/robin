@@ -19,5 +19,5 @@ void executarNovoProcesso(Robin* r);
 void verificarIO(Queue* qIO);
 void entradaProcessos(Robin* r, ProcList* pl, int t);
 void finalizarProcesso(ProcList* pl, int PID);
-
+int verificarFim(Robin* r, ProcList* pl);
 #endif

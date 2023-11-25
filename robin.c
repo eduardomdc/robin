@@ -52,7 +52,7 @@ int main(){
     ProcList* pl = criarProcessosHardcoded(); 
 
 
-    while(pl->size != 0){
+    while(!verificarFim(&robin, pl)){
         if(robin.em_execucao != NULL){
             printf("quantum no tempo %d :%d\n", t, robin.quantum_atual);
             printf("em_execucao: %d\n", robin.em_execucao->PID);
@@ -67,11 +67,12 @@ int main(){
 void entradaProcessos(Robin* r, ProcList* pl, int t){
     printf("entradaProcessos\n");
     if(pl==NULL){
-        printf("entradaProcessos:: lista vazia\n");
+        printf("entradaProcessos:: lista é NULL\n");
         return;
     } //lista vazia
 
     for (int i=0; i< pl->size;i++){
+        if (pl->procs[i] == NULL) continue;
         if((pl->procs[i])->tempoInicio == t){
             printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
             inserirProcesso(r->qalto, (pl->procs)[i]);
@@ -86,6 +87,34 @@ void verificarIO(Queue* qIO){
     return;
 }
 
+int verificarFim(Robin* r, ProcList* pl){
+    printf("verificamFim::\n");
+    // checa se todos os processos já saíram da lista de processos
+    // e se todos queues estão vazios
+    // e se não tem nada executando
+    // return 0 caso não seja o fim
+    // return 1 caso fim
+    for (int i=0; i<pl->size; i++){
+        if (pl->procs[i] != NULL){
+            printf("proclist n está vazia\n");
+            return 0;
+        } // ainda tem proc na lista
+    }
+    if (r->qalto->head != NULL){
+        printf("queue alto não está vazio\n");
+        return 0;
+    } // ainda tem proc no queue alto
+    if (r->qbaixo->head != NULL){
+        printf("queue baixo não está vazio\n");
+        return 0;
+    } // ainda tem proc no queue baixo
+    if (r->em_execucao != NULL){
+        printf("ainda tem processo em execução\n");
+        return 0;
+    }
+    printf("Fim!\n");
+    return 1; // fim
+}
 
 void updateSimulacao(Robin* r, ProcList* pl){
     printf("Update!\n");
@@ -127,7 +156,6 @@ void updateSimulacao(Robin* r, ProcList* pl){
         //ToDo
         executarNovoProcesso(r);
     }
-
 }
 
 void executarNovoProcesso(Robin* r){
@@ -152,7 +180,13 @@ void executarNovoProcesso(Robin* r){
 
 
 void finalizarProcesso(ProcList* pl, int PID){
-    //ToDo: Retirar processo da lista geral. 
+    printf("finalizarProcesso\n");
+    for (int i=0; i < pl->size; i++){
+        if (pl->procs[i] == NULL) continue;
+        if (pl->procs[i]->PID == PID){
+            pl->procs[i] = NULL;
+        }
+    }
     return;
 }
 
