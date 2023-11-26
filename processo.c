@@ -24,7 +24,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
     //Criando cada processo e alocando na lista
     for (int i = 0; i < n; i++){
         Processo* proc = (Processo*)malloc(sizeof(Processo));
-        status* s = (status*)malloc(sizeof(status));
+        //status* s = (status*)malloc(sizeof(status));
         IOreqs* ioreqs = (IOreqs*)malloc(sizeof(IOreqs));
 
         /*
@@ -46,7 +46,9 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         if(ioreqs->size > 0){
             for(int i = 0; i < ioreqs->size; i++){
                 IO* io = (IO*)malloc(sizeof(IO));
-                fscanf(f, "%d %d", &io->tempoInicio, &io->tipo);
+                int iotipo;
+                fscanf(f, "%d %d", &io->tempoInicio, &iotipo);
+                io->tipo = iotipo;
                 ios[i] = io;
             }
             ioreqs->reqs = ios;
