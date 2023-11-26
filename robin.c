@@ -6,7 +6,6 @@
 #include "tui.h"
 
 int PID_VAL = 100; //Valor Base do PID
-int t=0;
 
 const int QUANTUM = 5;
 const int MAX_PROCESSOS = 10;
@@ -63,13 +62,13 @@ int main(){
 
         updateSimulacao(&robin, pl);
         printAll(&robin);
-        t++;
+        robin.t++;
     }
 
     return 0;
 }
 
-void entradaProcessos(Robin* r, ProcList* pl, int t){
+void entradaProcessos(Robin* r, ProcList* pl){
     #ifdef DEBUG
     printf("entradaProcessos\n"); 
     #endif
@@ -81,7 +80,7 @@ void entradaProcessos(Robin* r, ProcList* pl, int t){
     } //lista vazia
 
     for (int i=0; i< pl->size;i++){
-        if(pl->procs[i] != NULL && (pl->procs[i])->tempoInicio == t){
+        if(pl->procs[i] != NULL && (pl->procs[i])->tempoInicio == r->t){
             #ifdef DEBUG
             printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
             #endif
@@ -156,7 +155,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
     }
     //Organizar Filas
 
-    entradaProcessos(r, pl, t); 
+    entradaProcessos(r, pl); 
     verificarIO(r->qIO);
 
     //Nenhum processo executando
@@ -182,7 +181,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
         executarNovoProcesso(r);
     }
     //O processo possui um io request
-    else if (checarIORequests(r->em_execucao, t)){
+    else if (checarIORequests(r->em_execucao, r->t)){
         //ToDo
         executarNovoProcesso(r);
     }
@@ -238,6 +237,7 @@ Robin criarRobin(int quantum, int max_proc){
     robin.qalto = criarQueue(max_proc, 1);
     robin.qbaixo = criarQueue(max_proc, 2);
     robin.qIO = criarQueue(max_proc, 0); //Isso ta esquisito
+    robin.t = 0;
     
     return robin;
 }

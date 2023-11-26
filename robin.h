@@ -7,6 +7,7 @@
 
 typedef struct Robin {
     int quantum_atual;
+    int t;
     int maxProcessos;
     Queue* qalto;
     Queue* qbaixo;
@@ -18,7 +19,7 @@ Robin criarRobin(int quantum, int max_proc); // inicializa struct robin
 void updateSimulacao(Robin* r, ProcList* pl);
 void executarNovoProcesso(Robin* r);
 void verificarIO(Queue* qIO);
-void entradaProcessos(Robin* r, ProcList* pl, int t);
+void entradaProcessos(Robin* r, ProcList* pl);
 void finalizarProcesso(ProcList* pl, int PID);
 int verificarFim(Robin* r, ProcList* pl);
 #endif

@@ -17,6 +17,7 @@ void printAll(Robin* r){
     printf("\n");
     green();
     printf("***********\n");
+    printf("Tempo Atual %d\n", r->t);
     printf("Quantum Atual %d\n", r->quantum_atual);reset();
     printCurrent(r);
     green();printf("FILA | Alta Prioridade\n");
