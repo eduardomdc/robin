@@ -24,8 +24,8 @@ void printAll(Robin* r){
     printQueue(r->qalto);reset();
     blue();printf("FILA | Baixa prioridade\n");
     printQueue(r->qbaixo);reset();
-    magenta();printf("FILA | IO\n");
-    printQueue(r->qIO);reset();
+    magenta();printf("FILAS | IO\n");
+    printIOQueues(r->qIO);
 }
 
 void printProc(Processo* proc){
@@ -65,6 +65,36 @@ void printQueue(Queue* queue){
         iterator = iterator->prev;
     } while(iterator != start);
     printf("\n");
+}
+
+void printIOQueues(Queue** queues){
+    for (int i=0; i<3; i++){
+        Queue* queue = queues[i];
+        switch (queue->prioridade){
+            case DISCO:
+                printf("Disco\n");
+                break;
+            case FITA_MAGNETICA:
+                printf("Fita Magnética\n");
+                break;
+            case IMPRESSORA:
+                printf("Impressora\n");
+                break;
+        }
+        printf("|");
+        ProcessoFila* start = queue->head;
+        ProcessoFila* iterator = start;
+        if (start == NULL){
+            printf(" Vazia...\n");
+            continue;
+        }
+        do {
+            Processo* proc = iterator->p;
+            printf("<- %d ", proc->PID);
+            iterator = iterator->prev;
+        } while(iterator != start);
+        printf("\n");
+    }
 }
 
 void printCurrent(Robin* r){

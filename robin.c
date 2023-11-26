@@ -184,7 +184,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
 
     entradaProcessos(r, pl); 
     verificarIO(r);
-    IO* req; //Possivel requisição do processo em execução
+    IO* req = NULL; //Possivel requisição do processo em execução
 
     //Nenhum processo executando
     if(r->em_execucao == NULL){

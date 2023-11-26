@@ -11,6 +11,7 @@ void printAll(Robin* r);
 void printProc(Processo* proc);
 void printCurrent(Robin* r);
 void printQueue(Queue* queue);
+void printIOQueues(Queue** queues);
 
 
 void red();
