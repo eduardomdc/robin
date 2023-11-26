@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "queues.h"
+#include "robin.h"
 
 int inserirProcesso(Queue* q, Processo* p){
     if(q->tamanho + 1 > q->max_size){
@@ -30,10 +31,14 @@ int inserirProcesso(Queue* q, Processo* p){
 
 
 Processo* popProcesso(Queue* q){
+    #ifdef DEBUG
     printf("popProcesso\n");
+    #endif
     ProcessoFila* bighead = q->head;
     if(bighead == NULL){
+        #ifdef DEBUG
         printf("popProcessos:: head = NULL\n");
+        #endif
         return NULL;
     }
 
@@ -43,7 +48,9 @@ Processo* popProcesso(Queue* q){
     q->head = q->head->prox;
     Processo* p = old_head->p;
     free(old_head);
+    #ifdef DEBUG
     printf("popProcesso:: fred old_head\n");
+    #endif
 
     q->tamanho -= 1;
 

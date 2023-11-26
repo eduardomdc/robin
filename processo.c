@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "processo.h"
+#include "robin.h"
 
 ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
 

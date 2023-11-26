@@ -55,8 +55,10 @@ int main(){
 
     while(!verificarFim(&robin, pl)){
         if(robin.em_execucao != NULL){
+            #ifdef DEBUG
             printf("quantum no tempo %d :%d\n", t, robin.quantum_atual);
             printf("em_execucao: %d\n", robin.em_execucao->PID);
+            #endif
         } 
 
         updateSimulacao(&robin, pl);
@@ -68,29 +70,39 @@ int main(){
 }
 
 void entradaProcessos(Robin* r, ProcList* pl, int t){
-    printf("entradaProcessos\n");
+    #ifdef DEBUG
+    printf("entradaProcessos\n"); 
+    #endif
     if(pl==NULL){
+        #ifdef DEBUG
         printf("entradaProcessos:: lista é NULL\n");
+        #endif
         return;
     } //lista vazia
 
     for (int i=0; i< pl->size;i++){
         if(pl->procs[i] != NULL && (pl->procs[i])->tempoInicio == t){
+            #ifdef DEBUG
             printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
+            #endif
             inserirProcesso(r->qalto, (pl->procs)[i]);
         }
     }
 }
 
 void verificarIO(Queue* qIO){
+    #ifdef DEBUG
     printf("VerificarIO\n");
+    #endif
     //ToDo: Iterar pela fila de io e colocar os finalizados na fila de pronto os que acabam no tempo t
     //Não esquecer de considerar filas diferentes para cada IO
     return;
 }
 
 int verificarFim(Robin* r, ProcList* pl){
+    #ifdef DEBUG
     printf("verificamFim::\n");
+    #endif
     // checa se todos os processos já saíram da lista de processos
     // e se todos queues estão vazios
     // e se não tem nada executando
@@ -98,33 +110,47 @@ int verificarFim(Robin* r, ProcList* pl){
     // return 1 caso fim
     for (int i=0; i<pl->size; i++){
         if (pl->procs[i] != NULL){
+            #ifdef DEBUG
             printf("proclist n está vazia\n");
+            #endif
             return 0;
         } // ainda tem proc na lista
     }
     if (r->qalto->head != NULL){
+        #ifdef DEBUG
         printf("queue alto não está vazio\n");
+        #endif
         return 0;
     } // ainda tem proc no queue alto
     if (r->qbaixo->head != NULL){
+        #ifdef DEBUG
         printf("queue baixo não está vazio\n");
+        #endif
         return 0;
     } // ainda tem proc no queue baixo
     if (r->em_execucao != NULL){
+        #ifdef DEBUG
         printf("ainda tem processo em execução\n");
+        #endif
         return 0;
     }
+    #ifdef DEBUG
     printf("Fim!\n");
+    #endif
     return 1; // fim
 }
 
 void updateSimulacao(Robin* r, ProcList* pl){
+    #ifdef DEBUG
     printf("Update!\n");
+    #endif
     //t++;
 
     //Alterações no processo executado
     if(r->em_execucao != NULL){
+        #ifdef DEBUG
         printf("em_execucao != NULL\n");
+        #endif
         r->em_execucao->tempoExecucao -= 1;
         r->quantum_atual++;
     }
@@ -135,7 +161,9 @@ void updateSimulacao(Robin* r, ProcList* pl){
 
     //Nenhum processo executando
     if(r->em_execucao == NULL){
+        #ifdef DEBUG
         printf("Nada em execução\n");
+        #endif
         executarNovoProcesso(r);
     }
     //Acabou o processo 
@@ -161,19 +189,25 @@ void updateSimulacao(Robin* r, ProcList* pl){
 }
 
 void executarNovoProcesso(Robin* r){
+    #ifdef DEBUG
     printf("executarNovoProcesso\n");
+    #endif
     r->em_execucao = NULL;
     r->quantum_atual = 0;
 
     Processo* proc = popProcesso(r->qalto);
     if(proc == NULL){ //Fila com prioridade 1 vazia
+        #ifdef DEBUG
         printf("Fila alta vazia\n");
+        #endif
         proc = popProcesso(r->qbaixo);
 
     }
 
     if(proc != NULL){
+        #ifdef DEBUG
         printf("Novo processo agora executando\n");
+        #endif
         proc->status = EXECUTANDO;
         r->em_execucao = proc;
     }
@@ -182,7 +216,9 @@ void executarNovoProcesso(Robin* r){
 
 
 void finalizarProcesso(ProcList* pl, int PID){
+    #ifdef DEBUG
     printf("finalizarProcesso\n");
+    #endif
     for (int i=0; i < pl->size; i++){
         if (pl->procs[i] != NULL){
             if (pl->procs[i]->PID == PID){
