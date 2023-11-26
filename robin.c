@@ -3,6 +3,7 @@
 #include "queues.h"
 #include "robin.h"
 #include "processo.h"
+#include "tui.h"
 
 int PID_VAL = 100; //Valor Base do PID
 int t=0;
@@ -46,7 +47,7 @@ ProcList* criarProcessosHardcoded(){
 }
 
 int main(){
-
+    printWelcome();
     Robin robin = criarRobin(QUANTUM, MAX_PROCESSOS);
     //ToDo: ProcList* pl = criaProcessos();
     ProcList* pl = criarProcessosHardcoded(); 
@@ -59,6 +60,7 @@ int main(){
         } 
 
         updateSimulacao(&robin, pl);
+        printAll(&robin);
         t++;
     }
 
