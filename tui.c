@@ -15,11 +15,16 @@ void printWelcome(){
 
 void printAll(Robin* r){
     printf("\n");
+    green();
+    printf("***********\n");
+    printf("Quantum Atual %d\n", r->quantum_atual);reset();
     printCurrent(r);
     green();printf("FILA | Alta Prioridade\n");
     printQueue(r->qalto);reset();
     blue();printf("FILA | Baixa prioridade\n");
     printQueue(r->qbaixo);reset();
+    magenta();printf("FILA | IO\n");
+    printQueue(r->qIO);reset();
 }
 
 void printProc(Processo* proc){
