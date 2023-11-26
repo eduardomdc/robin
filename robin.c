@@ -41,7 +41,6 @@ ProcList* criarProcessosHardcoded(){
 
     Processo* p1 = (Processo*) malloc(sizeof(Processo));
     p1->PID = 101;
-    p1->PPID = 0;
     p1->status = PRONTO;
     p1->tempoExecucao = 10;
     p1->tempoInicio = 5;    
@@ -49,7 +48,6 @@ ProcList* criarProcessosHardcoded(){
 
     Processo* p2 = (Processo*) malloc(sizeof(Processo));
     p2->PID = 102;
-    p2->PPID = 0;
     p2->status = PRONTO;
     p2->tempoExecucao = 12;
     p2->tempoInicio = 2;    

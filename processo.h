@@ -25,7 +25,6 @@ typedef struct IOreqs{
 
 typedef struct Processo{
     int PID;
-    int PPID; //Parent Process ID
     status status; 
     int tempoExecucao; 
     int tempoInicio;

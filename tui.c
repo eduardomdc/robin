@@ -34,7 +34,6 @@ void printProc(Processo* proc){
     }
     yellow();
     printf("----| PID %d |----\n", proc->PID);
-    printf("| PPID %d\n", proc->PPID);
     printf("| STATUS ");
     switch (proc->status){
         case PRONTO:
