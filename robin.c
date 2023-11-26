@@ -182,8 +182,10 @@ void executarNovoProcesso(Robin* r){
 void finalizarProcesso(ProcList* pl, int PID){
     printf("finalizarProcesso\n");
     for (int i=0; i < pl->size; i++){
-        if (pl->procs[i] != NULL && pl->procs[i]->PID == PID){
-            pl->procs[i] = NULL;
+        if (pl->procs[i] != NULL){
+            if (pl->procs[i]->PID == PID){
+                pl->procs[i] = NULL;
+            }
         }
     }
     return;
