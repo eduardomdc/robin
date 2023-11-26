@@ -11,6 +11,7 @@ int inserirProcesso(Queue* q, Processo* p){
     ProcessoFila* pf = (ProcessoFila*) malloc(sizeof(ProcessoFila));
     
     pf->p = p;
+    pf->TempoFila = 0;
 
     if (q->head == NULL){
         q->head = pf;

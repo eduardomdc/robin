@@ -5,16 +5,10 @@
 #include "processo.h"
 #include "tui.h"
 
-int PID_VAL = 100; //Valor Base do PID
 
 const int QUANTUM = 5;
 const int MAX_PROCESSOS = 10;
 
-int criarPID(){
-    static int PID = 100;
-    PID++;
-    return PID;
-}
 
 //Debugging
 ProcList* criarProcessosHardcoded(){
@@ -22,22 +16,44 @@ ProcList* criarProcessosHardcoded(){
     pl->size  = 2;
     pl->procs = (Processo**) malloc(pl->size*sizeof(Processo*));
 
-    IOreqs placeholder = {NULL, 0};
+    IO** array1IO = (IO**) malloc(sizeof(IO*));
+    IO* io1 = (IO*) malloc(sizeof(IO));
+    io1->tempoInicio = 3;
+    io1->tipo = IMPRESSORA;
+    array1IO[0] = io1;
+
+    
+    IO** array2IO = (IO**) malloc(sizeof(IO*));
+    IO* io2 = (IO*) malloc(sizeof(IO));
+    io2->tempoInicio = 2;
+    io2->tipo = DISCO;
+    array2IO[0] = io2;
+
+
+    IOreqs* placeholder1 = (IOreqs*)malloc(sizeof(IOreqs*));
+    placeholder1->reqs = array1IO;
+    placeholder1->size = 1;
+
+    IOreqs* placeholder2 = (IOreqs*)malloc(sizeof(IOreqs*));
+    placeholder2->reqs = array2IO;
+    placeholder2->size = 1;
+
+
     Processo* p1 = (Processo*) malloc(sizeof(Processo));
-    p1->PID = criarPID();
+    p1->PID = 101;
     p1->PPID = 0;
     p1->status = PRONTO;
     p1->tempoExecucao = 10;
     p1->tempoInicio = 5;    
-    p1->IO = &placeholder;
+    p1->IO = placeholder1;
 
     Processo* p2 = (Processo*) malloc(sizeof(Processo));
-    p2->PID = criarPID();
+    p2->PID = 102;
     p2->PPID = 0;
     p2->status = PRONTO;
     p2->tempoExecucao = 12;
     p2->tempoInicio = 2;    
-    p2->IO = &placeholder;
+    p2->IO = placeholder2;
 
     pl->procs[0] = p1;
     pl->procs[1] = p2;
@@ -47,7 +63,7 @@ ProcList* criarProcessosHardcoded(){
 
 int main(){
     printWelcome();
-    Robin robin = criarRobin(QUANTUM, MAX_PROCESSOS);
+    Robin robin = criarRobin(QUANTUM, MAX_PROCESSOS, 3);
     //ToDo: ProcList* pl = criaProcessos();
     ProcList* pl = criarProcessosHardcoded(); 
 
@@ -55,7 +71,7 @@ int main(){
     while(!verificarFim(&robin, pl)){
         if(robin.em_execucao != NULL){
             #ifdef DEBUG
-            printf("quantum no tempo %d :%d\n", t, robin.quantum_atual);
+            printf("quantum no tempo %d :%d\n", robin.t, robin.quantum_atual);
             printf("em_execucao: %d\n", robin.em_execucao->PID);
             #endif
         } 
@@ -89,14 +105,28 @@ void entradaProcessos(Robin* r, ProcList* pl){
     }
 }
 
-void verificarIO(Queue* qIO){
+void verificarIO(Robin* r){
     #ifdef DEBUG
     printf("VerificarIO\n");
     #endif
-    //ToDo: Iterar pela fila de io e colocar os finalizados na fila de pronto os que acabam no tempo t
-    //Não esquecer de considerar filas diferentes para cada IO
+    for (int i=0; i< 3; i++){
+
+        if(r->qIO[i]->head != NULL){
+            r->qIO[i]->head->TempoFila += 1;
+
+            if(r->qIO[i]->head->TempoFila == r->qIO[i]->prioridade){
+
+                Processo* p = popProcesso(r->qIO[i]);
+                p->status = PRONTO;
+
+                if (i % 2 == 1) inserirProcesso(r->qalto, p);
+                else inserirProcesso(r->qbaixo, p);
+
+            }
+        }
+    }
     return;
-}
+    }
 
 int verificarFim(Robin* r, ProcList* pl){
     #ifdef DEBUG
@@ -143,7 +173,6 @@ void updateSimulacao(Robin* r, ProcList* pl){
     #ifdef DEBUG
     printf("Update!\n");
     #endif
-    //t++;
 
     //Alterações no processo executado
     if(r->em_execucao != NULL){
@@ -156,7 +185,8 @@ void updateSimulacao(Robin* r, ProcList* pl){
     //Organizar Filas
 
     entradaProcessos(r, pl); 
-    verificarIO(r->qIO);
+    verificarIO(r);
+    IO* req; //Possivel requisição do processo em execução
 
     //Nenhum processo executando
     if(r->em_execucao == NULL){
@@ -182,7 +212,10 @@ void updateSimulacao(Robin* r, ProcList* pl){
     }
     //O processo possui um io request
     else if (checarIORequests(r->em_execucao, r->t)){
-        //ToDo
+        r->em_execucao->status = BLOQUEADO;
+        if(req->tipo == IMPRESSORA) inserirProcesso(r->qIO[0], r->em_execucao);
+        else if (req->tipo == DISCO) inserirProcesso(r->qIO[1], r->em_execucao);
+        else if (req->tipo == FITA_MAGNETICA) inserirProcesso(r->qIO[2], r->em_execucao);
         executarNovoProcesso(r);
     }
 }
@@ -229,15 +262,20 @@ void finalizarProcesso(ProcList* pl, int PID){
 }
 
 
-Robin criarRobin(int quantum, int max_proc){
+Robin criarRobin(int quantum, int max_proc, int numeroIO){
     Robin robin;
+    robin.t = 0;
     robin.quantum_atual = 0;
     robin.maxProcessos = max_proc;
     robin.em_execucao = NULL;
     robin.qalto = criarQueue(max_proc, 1);
     robin.qbaixo = criarQueue(max_proc, 2);
-    robin.qIO = criarQueue(max_proc, 0); //Isso ta esquisito
-    robin.t = 0;
+    robin.qIO = (Queue**) malloc(numeroIO*sizeof(Queue*));
+    
+    //Não sei iterar por enum em C .-.
+    robin.qIO[0] = criarQueue(max_proc, IMPRESSORA);
+    robin.qIO[1] = criarQueue(max_proc, DISCO);
+    robin.qIO[2] = criarQueue(max_proc, FITA_MAGNETICA);
     
     return robin;
 }
