@@ -46,7 +46,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         else if(ioreqs->size == 0){
             ioreqs->reqs = NULL;
         }
-
+        proc->PPID = 0;
         proc->IO = ioreqs;
         proc->status = PRONTO;
         procs[i] = proc;
