@@ -1,19 +1,25 @@
 #include "tui.h"
 #include "processo.h"
+#include "queues.h"
 #include "robin.h"
 
 
 
 void printWelcome(){
     green();
-    printf("|| S  E  R || v0.1\n");
+    printf("|| S . E . R || v0.1\n");
     blue();
     printf("Simulador de Escalonamento Round Robin\n");
     reset();
 }
 
 void printAll(Robin* r){
+    printf("\n");
     printCurrent(r);
+    green();printf("FILA | Alta Prioridade\n");
+    printQueue(r->qalto);reset();
+    blue();printf("FILA | Baixa prioridade\n");
+    printQueue(r->qbaixo);reset();
 }
 
 void printProc(Processo* proc){
@@ -40,12 +46,35 @@ void printProc(Processo* proc){
     reset();
 }
 
+void printQueue(Queue* queue){
+    printf("|");
+    ProcessoFila* start = queue->head;
+    ProcessoFila* iterator = start;
+    if (start == NULL){
+        printf(" Vazia...\n");
+        return;
+    }
+    do {
+        Processo* proc = iterator->p;
+        printf("<- %d ", proc->PID);
+        iterator = iterator->prev;
+    } while(iterator != start);
+    printf("\n");
+}
 
 void printCurrent(Robin* r){
+    
+    if (r->em_execucao == NULL){
+        magenta();
+        printf("!--Nenhum processo em execução--!\n");
+        reset();
+        return;
+    }
     green();
     printf("Processo Atual\n");
     reset();
     printProc(r->em_execucao);
+    
 }
 
 void red(){

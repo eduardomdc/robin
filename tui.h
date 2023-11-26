@@ -10,6 +10,7 @@ void printWelcome();
 void printAll(Robin* r);
 void printProc(Processo* proc);
 void printCurrent(Robin* r);
+void printQueue(Queue* queue);
 
 
 void red();
