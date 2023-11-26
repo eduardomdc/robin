@@ -2,9 +2,9 @@
 #define PROCESSO
 
 typedef enum tiposIO{
-    IMPRESSORA = 10,
-    DISCO = 2,
-    FITA_MAGNETICA = 6
+    DISCO = 3,
+    FITA_MAGNETICA = 6,
+    IMPRESSORA = 10
 }tiposIO;
 
 typedef enum status{

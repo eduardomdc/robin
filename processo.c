@@ -28,19 +28,8 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         //status* s = (status*)malloc(sizeof(status));
         IOreqs* ioreqs = (IOreqs*)malloc(sizeof(IOreqs));
 
-        /*
-        Código para um IO por processo
-        IO *io = (IO *)malloc(sizeof(IO));
-
-        fscanf(f, "%d %d %s %d %d %d %s %d", proc->PID, proc->PPID, proc->tempoExecucao, proc->tempoInicio,
-               io->tempoInicio, io->tipo, ioreqs->size);
-
-        ioreqs->reqs = io;
-        proc->IO = ioreqs;
-        */
-
         //Todas as informações do processo exceto as de IO
-        fscanf(f, "%d %d %d %d %d", &proc->PID, &proc->PPID, &proc->tempoExecucao, &proc->tempoInicio, &ioreqs->size);
+        fscanf(f, "%d %d %d %d", &proc->PID, &proc->tempoExecucao, &proc->tempoInicio, &ioreqs->size);
         IO** ios = (IO**)malloc(ioreqs->size * sizeof(IO*));
 
         //Informações de IO
@@ -59,6 +48,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         }
 
         proc->IO = ioreqs;
+        proc->status = PRONTO;
         procs[i] = proc;
     }
 
