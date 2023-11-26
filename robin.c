@@ -29,7 +29,7 @@ ProcList* criarProcessosHardcoded(){
     p1->status = PRONTO;
     p1->tempoExecucao = 10;
     p1->tempoInicio = 5;    
-    p1->IO = placeholder;
+    p1->IO = &placeholder;
 
     Processo* p2 = (Processo*) malloc(sizeof(Processo));
     p2->PID = criarPID();
@@ -37,7 +37,7 @@ ProcList* criarProcessosHardcoded(){
     p2->status = PRONTO;
     p2->tempoExecucao = 12;
     p2->tempoInicio = 2;    
-    p2->IO = placeholder;
+    p2->IO = &placeholder;
 
     pl->procs[0] = p1;
     pl->procs[1] = p2;

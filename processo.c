@@ -39,14 +39,14 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         */
 
         //Todas as informações do processo exceto as de IO
-        fscanf(f, "%d %d %s %d %d %d", proc->PID, proc->PPID, proc->tempoExecucao, proc->tempoInicio, ioreqs->size);
+        fscanf(f, "%d %d %d %d %d", &proc->PID, &proc->PPID, &proc->tempoExecucao, &proc->tempoInicio, &ioreqs->size);
         IO** ios = (IO**)malloc(ioreqs->size * sizeof(IO*));
 
         //Informações de IO
         if(ioreqs->size > 0){
             for(int i = 0; i < ioreqs->size; i++){
                 IO* io = (IO*)malloc(sizeof(IO));
-                fscanf(f, "%d %s", io->tempoInicio, io->tipo);
+                fscanf(f, "%d %d", &io->tempoInicio, &io->tipo);
                 ios[i] = io;
             }
             ioreqs->reqs = ios;
