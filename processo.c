@@ -69,9 +69,11 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
     return plist; 
 }
 
-int checarIORequests(Processo* p, int t){
+IO* checarIORequests(Processo* p, int t){
     //Itera pelos IO's do processo e retornar true se existir um que comece no tempo t
-    for(int i = 0; i < p->IO->size; i++)
-        if(p->IO->reqs[i]->tempoInicio == t) return 1;
-    return 0;
+    if(p->IO == NULL) return NULL;
+    for(int i = 0; i < p->IO->size; i++){
+        if(p->IO->reqs[i]->tempoInicio == t) return p->IO->reqs[i];
+    }
+    return NULL;
 }

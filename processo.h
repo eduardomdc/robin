@@ -2,9 +2,9 @@
 #define PROCESSO
 
 typedef enum tiposIO{
-    IMPRESSORA,
-    DISCO,
-    FITA_MAGNETICA
+    IMPRESSORA = 10,
+    DISCO = 2,
+    FITA_MAGNETICA = 6
 }tiposIO;
 
 typedef enum status{
@@ -39,7 +39,6 @@ typedef struct ProcList{
 }ProcList;
 
 ProcList* criarProcessos(char* filename, int MAX_PROCESSOS);
-ProcList* getProcessos(char* filename, int PID_VAL, int MAX_PROCESSOS);
-int checarIORequests(Processo* p, int t);
+IO* checarIORequests(Processo* p, int t);
 
 #endif 
