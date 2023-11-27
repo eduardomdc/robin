@@ -119,8 +119,8 @@ void verificarIO(Robin* r){
                 Processo* p = popProcesso(r->qIO[i]);
                 p->status = PRONTO;
 
-                if (i % 2 == 1) inserirProcesso(r->qalto, p);
-                else inserirProcesso(r->qbaixo, p);
+                if (i % 2) inserirProcesso(r->qbaixo, p);
+                else inserirProcesso(r->qalto, p);
 
             }
         }
