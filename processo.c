@@ -5,7 +5,7 @@
 
 ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
 
-    FILE* f = fopen(filename, "w");
+    FILE* f = fopen(filename, "r");
     if (f == NULL){
         printf("Erro abrindo arquivo.");
         exit(4);

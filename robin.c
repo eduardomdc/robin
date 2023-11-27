@@ -62,8 +62,8 @@ ProcList* criarProcessosHardcoded(){
 int main(){
     printWelcome();
     Robin robin = criarRobin(QUANTUM, MAX_PROCESSOS, 3);
-    //ToDo: ProcList* pl = criaProcessos();
-    ProcList* pl = criarProcessosHardcoded(); 
+    ProcList* pl = criarProcessos("inputs.txt", MAX_PROCESSOS);
+    //ProcList* pl = criarProcessosHardcoded(); 
 
 
     while(!verificarFim(&robin, pl)){
