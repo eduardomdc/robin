@@ -20,7 +20,7 @@ void printAll(Robin* r){
     printf("Tempo Atual %d\n", r->t);
     printf("Quantum Atual %d\n", r->quantum_atual);reset();
     printCurrent(r);
-    green();printf("FILA | Alta Prioridade\n");
+    blue();printf("FILA | Alta Prioridade\n");
     printQueue(r->qalto);reset();
     blue();printf("FILA | Baixa prioridade\n");
     printQueue(r->qbaixo);reset();
@@ -47,21 +47,25 @@ void printProc(Processo* proc){
             break;
     }
     printf("| Tempo de Início %d\n", proc->tempoEntrada);
-    printf("| Tempo Restante de Execução %d\n", proc->tempoExecucao);
+    printf("| Tempo Restante de Execução %d\n", proc->tempoRestante);
     printf("| IO |");
     for (int i=0; i<proc->IO->size; i++){
         IO* io = proc->IO->reqs[i];
+        if (io->tempoInicio < (proc->tempoExecucao - proc->tempoRestante))
+            green();
         switch (io->tipo){
             case DISCO:
-                printf(" Disco t=%d |", io->tempoInicio);
+                printf(" Disco t=%d ", io->tempoInicio);
                 break;
             case FITA_MAGNETICA:
-                printf(" Fita t=%d |", io->tempoInicio);
+                printf(" Fita t=%d ", io->tempoInicio);
                 break;
             case IMPRESSORA:
-                printf(" Impressora t=%d |", io->tempoInicio);
+                printf(" Impressora t=%d ", io->tempoInicio);
                 break;
         }
+        yellow();
+        printf("|");
     }
     printf("\n");
     reset();
