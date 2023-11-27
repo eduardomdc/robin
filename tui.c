@@ -6,10 +6,12 @@
 
 
 void printWelcome(){
-    green();
-    printf("|| S . E . R || v0.1\n");
-    blue();
-    printf("Simulador de Escalonamento Round Robin\n");
+    reset();
+    red();printf("   ____      ____      ___        ___ \n");
+    yellow();printf("  / __/     / __/     / _ \\      / _ \\ \n");
+    green();printf(" _\\ \\  _   / _/  _   / , _/ _   / , _/ \n");
+    blue();printf("/___/ (_) /___/ (_) /_/|_| (_) /_/|_| \n");
+    magenta();printf("Simulador de Escalonamento Round Robin\n");
     reset();
 }
 

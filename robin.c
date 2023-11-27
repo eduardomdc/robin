@@ -192,9 +192,9 @@ void updateSimulacao(Robin* r, ProcList* pl){
         #ifdef DEBUG
         printf("em_execucao != NULL\n");
         #endif
+        req = checarIORequests(r->em_execucao);
         r->em_execucao->tempoRestante -= 1;
         r->quantum_atual++;
-        req = checarIORequests(r->em_execucao);
     }
     //Organizar Filas
 

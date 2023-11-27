@@ -1,7 +1,7 @@
 #ifndef ROBIN
 #define ROBIN
 
-#define DEBUG
+//#define DEBUG
 #include "queues.h"
 #include "processo.h"
 
