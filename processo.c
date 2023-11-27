@@ -75,10 +75,33 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
 }
 
 IO* checarIORequests(Processo* p){
+    #ifdef DEBUG
+    printf("checarIORequests::\n");
+    #endif
     //Itera pelos IO's do processo e retornar true se existir um que comece no tempo t
-    if(p->IO == NULL) return NULL;
-    for(int i = 0; i < p->IO->size; i++){
-        if(p->IO->reqs[i]->tempoInicio == p->tempoExecucao - p->tempoRestante) return p->IO->reqs[i];
+    if(p->IO == NULL){
+        #ifdef DEBUG
+        printf("checarIORequests::processo sem IO\n");
+        #endif
+        return NULL;
     }
+    for(int i = 0; i < p->IO->size; i++){
+        if(p->IO->reqs[i]->tempoInicio == p->tempoExecucao - p->tempoRestante){
+            #ifdef DEBUG
+            printf("checarIORequests::processo tem IO %d\n", p->IO->reqs[i]->tipo);
+            #endif
+            return p->IO->reqs[i];
+        } else {
+            #ifdef DEBUG
+            printf("checarIORequests::IO->reqs[%d] não está na hora de executar\n",i);
+            printf("    pois ele começa no t=%d\n", p->IO->reqs[i]->tempoInicio);
+            printf("    e agora é t=%d\n", p->tempoExecucao - p->tempoRestante);
+            #endif
+        }
+    }
+    
+    #ifdef DEBUG
+    printf("checarIORequests::processo tem lista de IO size=%d\n", p->IO->size);
+    #endif
     return NULL;
 }

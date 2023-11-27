@@ -112,6 +112,9 @@ void verificarIO(Robin* r){
     for (int i=0; i< 3; i++){
 
         if(r->qIO[i]->head != NULL){
+            #ifdef DEBUG
+            printf("VerificarIO:: tem IO %d atualmente\n", i);
+            #endif
             r->qIO[i]->head->TempoFila += 1;
 
             if(r->qIO[i]->head->TempoFila == r->qIO[i]->prioridade){
@@ -207,6 +210,9 @@ void updateSimulacao(Robin* r, ProcList* pl){
     }
     //Acabou o processo 
     else if(r->em_execucao->tempoRestante == 0){
+        #ifdef DEBUG
+        printf("Acabou o processo\n");
+        #endif
         finalizarProcesso(pl, r->em_execucao->PID);
 
         executarNovoProcesso(r);
@@ -214,7 +220,9 @@ void updateSimulacao(Robin* r, ProcList* pl){
 
     //Saiu por preempção. Volta para a fila 2
     else if((r->quantum_atual) % QUANTUM == 0){
-        
+        #ifdef DEBUG
+        printf("Saiu por preempção, volta pra fila 2\n");
+        #endif
         r->em_execucao->status = PRONTO;
         inserirProcesso(r->qbaixo, r->em_execucao); 
 
@@ -222,6 +230,9 @@ void updateSimulacao(Robin* r, ProcList* pl){
     }
     //O processo possui um io request
     else if (req){
+        #ifdef DEBUG
+        printf("Processo possui um IO\n");
+        #endif
         r->em_execucao->status = BLOQUEADO;
         if(req->tipo == IMPRESSORA) inserirProcesso(r->qIO[0], r->em_execucao);
         else if (req->tipo == DISCO) inserirProcesso(r->qIO[1], r->em_execucao);

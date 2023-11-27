@@ -48,6 +48,7 @@ void printProc(Processo* proc){
     }
     printf("| Tempo de Início %d\n", proc->tempoEntrada);
     printf("| Tempo Restante de Execução %d\n", proc->tempoRestante);
+    printf("| Tempo Passado de Execução %d\n", proc->tempoExecucao-proc->tempoRestante);
     printf("| IO |");
     for (int i=0; i<proc->IO->size; i++){
         IO* io = proc->IO->reqs[i];
