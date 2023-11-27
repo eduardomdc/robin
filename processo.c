@@ -31,7 +31,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         IOreqs* ioreqs = (IOreqs*)malloc(sizeof(IOreqs));
 
         //Todas as informações do processo exceto as de IO
-        fscanf(f, "%d %d %d %d", &proc->PID, &proc->tempoExecucao, &proc->tempoInicio, &ioreqs->size);
+        fscanf(f, "%d %d %d %d", &proc->PID, &proc->tempoExecucao, &proc->tempoEntrada, &ioreqs->size);
         IO** ios = (IO**)malloc(ioreqs->size * sizeof(IO*));
 
         //Informações de IO
@@ -63,6 +63,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         }
         proc->IO = ioreqs;
         proc->status = PRONTO;
+        proc->tempoRestante = proc->tempoExecucao;
         procs[i] = proc;
     }
 
@@ -73,11 +74,11 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
     return plist; 
 }
 
-IO* checarIORequests(Processo* p, int t){
+IO* checarIORequests(Processo* p){
     //Itera pelos IO's do processo e retornar true se existir um que comece no tempo t
     if(p->IO == NULL) return NULL;
     for(int i = 0; i < p->IO->size; i++){
-        if(p->IO->reqs[i]->tempoInicio == t) return p->IO->reqs[i];
+        if(p->IO->reqs[i]->tempoInicio == p->tempoExecucao - p->tempoRestante) return p->IO->reqs[i];
     }
     return NULL;
 }

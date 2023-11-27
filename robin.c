@@ -43,15 +43,17 @@ ProcList* criarProcessosHardcoded(){
     p1->PID = 101;
     p1->status = PRONTO;
     p1->tempoExecucao = 10;
-    p1->tempoInicio = 5;    
+    p1->tempoEntrada = 5;    
     p1->IO = placeholder1;
+    p1->tempoRestante = p1->tempoExecucao;
 
     Processo* p2 = (Processo*) malloc(sizeof(Processo));
     p2->PID = 102;
     p2->status = PRONTO;
     p2->tempoExecucao = 12;
-    p2->tempoInicio = 2;    
+    p2->tempoEntrada = 2;    
     p2->IO = placeholder2;
+    p2->tempoRestante = p2->tempoExecucao;
 
     pl->procs[0] = p1;
     pl->procs[1] = p2;
@@ -94,7 +96,7 @@ void entradaProcessos(Robin* r, ProcList* pl){
     } //lista vazia
 
     for (int i=0; i< pl->size;i++){
-        if(pl->procs[i] != NULL && (pl->procs[i])->tempoInicio == r->t){
+        if(pl->procs[i] != NULL && (pl->procs[i])->tempoEntrada == r->t){
             #ifdef DEBUG
             printf("entradaProcessos:: entrar processo %d\n", pl->procs[i]->PID);
             #endif
@@ -172,19 +174,21 @@ void updateSimulacao(Robin* r, ProcList* pl){
     printf("Update!\n");
     #endif
 
+    IO* req = NULL; //Possivel requisição do processo em execução
+
     //Alterações no processo executado
     if(r->em_execucao != NULL){
         #ifdef DEBUG
         printf("em_execucao != NULL\n");
         #endif
-        r->em_execucao->tempoExecucao -= 1;
+        r->em_execucao->tempoRestante -= 1;
         r->quantum_atual++;
+        req = checarIORequests(r->em_execucao);
     }
     //Organizar Filas
 
     entradaProcessos(r, pl); 
     verificarIO(r);
-    IO* req = NULL; //Possivel requisição do processo em execução
 
     //Nenhum processo executando
     if(r->em_execucao == NULL){
@@ -194,7 +198,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
         executarNovoProcesso(r);
     }
     //Acabou o processo 
-    else if(r->em_execucao->tempoExecucao == 0){
+    else if(r->em_execucao->tempoRestante == 0){
         finalizarProcesso(pl, r->em_execucao->PID);
 
         executarNovoProcesso(r);
@@ -209,7 +213,7 @@ void updateSimulacao(Robin* r, ProcList* pl){
         executarNovoProcesso(r);
     }
     //O processo possui um io request
-    else if (checarIORequests(r->em_execucao, r->t)){
+    else if (req){
         r->em_execucao->status = BLOQUEADO;
         if(req->tipo == IMPRESSORA) inserirProcesso(r->qIO[0], r->em_execucao);
         else if (req->tipo == DISCO) inserirProcesso(r->qIO[1], r->em_execucao);

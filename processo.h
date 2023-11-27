@@ -26,8 +26,9 @@ typedef struct IOreqs{
 typedef struct Processo{
     int PID;
     status status; 
-    int tempoExecucao; 
-    int tempoInicio;
+    int tempoRestante; 
+    int tempoEntrada;
+    int tempoExecucao;
     IOreqs* IO;   
     
 }Processo;
@@ -38,6 +39,6 @@ typedef struct ProcList{
 }ProcList;
 
 ProcList* criarProcessos(char* filename, int MAX_PROCESSOS);
-IO* checarIORequests(Processo* p, int t);
+IO* checarIORequests(Processo* p);
 
 #endif 
