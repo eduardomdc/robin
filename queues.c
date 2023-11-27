@@ -3,6 +3,9 @@
 #include "queues.h"
 #include "robin.h"
 
+// HEAD PROX == TAIL
+// TAIL PREV == HEAD
+
 int inserirProcesso(Queue* q, Processo* p){
     if(q->tamanho + 1 > q->max_size){
         return 0; //fila cheia
@@ -16,13 +19,12 @@ int inserirProcesso(Queue* q, Processo* p){
     if (q->head == NULL){
         q->head = pf;
         q->tail = pf;
-        pf->prox = pf;
-        pf->prev = pf;
     }
 
-    pf->prox = q->head; 
-    pf->prev = q->tail;
-    q->tail->prox = pf;
+    pf->prev = q->head; 
+    pf->prox = q->tail;
+    q->head->prox = pf;
+    q->tail->prev = pf;
     q->tail = pf;
 
     q->tamanho += 1;
@@ -44,9 +46,10 @@ Processo* popProcesso(Queue* q){
     }
 
     ProcessoFila* old_head = q->head;
-    q->tail->prox = q->head->prox;
-    q->head->prox->prev = q->tail;
-    q->head = q->head->prox;
+
+    q->tail->prev = q->head->prev;
+    q->head->prev->prox = q->tail;
+    q->head = q->head->prev;
     Processo* p = old_head->p;
     free(old_head);
     #ifdef DEBUG

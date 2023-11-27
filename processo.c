@@ -32,10 +32,10 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
 
         //Todas as informações do processo exceto as de IO
         fscanf(f, "%d %d %d %d", &proc->PID, &proc->tempoExecucao, &proc->tempoEntrada, &ioreqs->size);
-        IO** ios = (IO**)malloc(ioreqs->size * sizeof(IO*));
 
         //Informações de IO
         if(ioreqs->size > 0){
+            IO** ios = (IO**)malloc(ioreqs->size * sizeof(IO*));
             for(int i = 0; i < ioreqs->size; i++){
                 IO* io = (IO*)malloc(sizeof(IO));
                 char iotipo[100];
@@ -79,7 +79,7 @@ IO* checarIORequests(Processo* p){
     printf("checarIORequests::\n");
     #endif
     //Itera pelos IO's do processo e retornar true se existir um que comece no tempo t
-    if(p->IO == NULL){
+    if(p->IO->size == 0){
         #ifdef DEBUG
         printf("checarIORequests::processo sem IO\n");
         #endif
