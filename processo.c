@@ -42,7 +42,7 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
                 tiposIO enumtipo;
                 fscanf(f, "%d %s", &io->tempoInicio, iotipo);
                 if (strcmp(iotipo, "FITA")==0 
-                || strcmp(iotipo, "FITA_MAGNETICA")){
+                || strcmp(iotipo, "FITA_MAGNETICA")==0){
                     enumtipo = FITA_MAGNETICA;
                 }
                 else if (strcmp(iotipo, "DISCO")==0){
