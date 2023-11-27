@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "processo.h"
 #include "robin.h"
+#include "tui.h"
 
 ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
 
@@ -36,9 +38,22 @@ ProcList* criarProcessos(char* filename, int MAX_PROCESSOS){
         if(ioreqs->size > 0){
             for(int i = 0; i < ioreqs->size; i++){
                 IO* io = (IO*)malloc(sizeof(IO));
-                int iotipo;
-                fscanf(f, "%d %d", &io->tempoInicio, &iotipo);
-                io->tipo = iotipo;
+                char iotipo[100];
+                tiposIO enumtipo;
+                fscanf(f, "%d %s", &io->tempoInicio, iotipo);
+                if (strcmp(iotipo, "FITA")==0 
+                || strcmp(iotipo, "FITA_MAGNETICA")){
+                    enumtipo = FITA_MAGNETICA;
+                }
+                else if (strcmp(iotipo, "DISCO")==0){
+                    enumtipo = DISCO;
+                }
+                else if (strcmp(iotipo, "IMPRESSORA")==0){
+                    enumtipo = IMPRESSORA;
+                } else {
+                    red();printf("CriarProcessos:: !! Erro: Tipo de IO %s inválido !!", iotipo);reset();
+                }
+                io->tipo = enumtipo;
                 ios[i] = io;
             }
             ioreqs->reqs = ios;
