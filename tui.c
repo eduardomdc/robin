@@ -48,6 +48,22 @@ void printProc(Processo* proc){
     }
     printf("| Tempo de Início %d\n", proc->tempoInicio);
     printf("| Tempo Restante de Execução %d\n", proc->tempoExecucao);
+    printf("| IO |");
+    for (int i=0; i<proc->IO->size; i++){
+        IO* io = proc->IO->reqs[i];
+        switch (io->tipo){
+            case DISCO:
+                printf(" Disco t=%d |", io->tempoInicio);
+                break;
+            case FITA_MAGNETICA:
+                printf(" Fita t=%d |", io->tempoInicio);
+                break;
+            case IMPRESSORA:
+                printf(" Impressora t=%d |", io->tempoInicio);
+                break;
+        }
+    }
+    printf("\n");
     reset();
 }
 
