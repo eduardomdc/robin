@@ -163,6 +163,14 @@ int verificarFim(Robin* r, ProcList* pl){
         #endif
         return 0;
     }
+    for (int i = 0; i<3; i++){
+        if (r->qIO[i]->head != NULL){
+            #ifdef DEBUG
+            printf("ainda tem IO\n");
+            #endif
+            return 0;
+        }
+    }
     #ifdef DEBUG
     printf("Fim!\n");
     #endif
